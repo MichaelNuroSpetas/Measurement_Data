@@ -1,4 +1,4 @@
-% Script to import meassurment data
+% Script to import and edit measurement data then convert to .mat file
 %% Import sheet 1
 [~, ~, sheet1] = xlsread('New Microsoft Excel Worksheet.xlsx','Sheet1','A1:Z18726');
 sheet1(cellfun(@(x) ~isempty(x) && isnumeric(x) && isnan(x),sheet1)) = {''};
@@ -30,7 +30,7 @@ sheet3(idx) = cellfun(@(x) string(x), sheet3(idx), 'UniformOutput', false);
 %% Clear temporary variables
 clearvars idx;
 
-%% Import updated Vækerø(P42_FT01) and IPU_FT03 data
+%% Import updated VÃ¦kerÃ¸(P42_FT01) and IPU_FT03 data
 [~, ~, sheet4] = xlsread('veas_data_010318.xlsx','veas_data_010318','A7:K18732');
 sheet4(cellfun(@(x) ~isempty(x) && isnumeric(x) && isnan(x),sheet4)) = {''};
 
@@ -114,7 +114,7 @@ PA1623_FT16 = msheet1234t(:,17);
 % Inflow to the VEAS-Engervann basin
 PASL1_16_VEAS_EV = msheet1234t(:,29:46);
 SUM_PASL_VEAS_EV = sum(PASL1_16_VEAS_EV,2); % Sum of all inflow values (rows) to the VEAS_EV basin
-% Inflow to the Engervann-Vækerø basin
+% Inflow to the Engervann-VÃ¦kerÃ¸ basin
 PASL17_24_EV_VA = msheet1234t(:,48:53); %Note EV is missing
 SUM_PASL_EV_VA = sum(PASL17_24_EV_VA,2); % Sum of all inflow values (rows) to the EV_VA basin
 
@@ -145,7 +145,7 @@ plot(((1:1872)*10),msheet3td(:,8), '-r',td,msheet3r(:,8),'-b'), grid % Comparing
 %plot(td, msheet3r(:,8),td, msheet3i(:,8))
 grid minor
 legend('Orginal data sampled at 10min intervals', 'Data resampled at 1min intervals');
-%% Plotting Vækerø vs ipu flow sum
+%% Plotting VÃ¦kerÃ¸ vs ipu flow sum
 
 
 tdsp = 180; %timedisplacement, transportating time
@@ -153,4 +153,4 @@ tvec = 1:(length(FT_VA)-tdsp);
 scale = (ones(1,length(FT_VA))*1200)';
 VA_scaled = sum(horzcat(scale,FT_VA),2);
 plot(tvec, VA_scaled(1:(end-tdsp),:), tvec, IPU_FT((tdsp+1):end,:), tvec, PA1623_FT(1:(end-tdsp),:))
-legend('Vækerø flow measurement', 'IPU flow', 'Pump flow to Frognerparken')
+legend('VÃ¦kerÃ¸ flow measurement', 'IPU flow', 'Pump flow to Frognerparken')
